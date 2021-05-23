@@ -42,5 +42,10 @@ const getStop = async (stopName, routeId, direction) => {
 
 // Get departure details by specifying route ID + direction + stop
 // Return DepartureText from first object in array
+const getDeparture = async (routeId, direction, stopId) => {
+  const data = await apiFetch(`${routeId}/${direction}/${stopId}`);
+  console.log(data[0]);
+  return data[0];
+};
 
-module.exports = { getRoutes, getDirection, getStop };
+module.exports = { getRoutes, getDirection, getStop, getDeparture };
