@@ -32,8 +32,15 @@ const getDirection = async (direction, routeId) => {
 
 // Get route stops by specifying route ID + direction and filter and filter based on stop specified in args
 // Return Stop value
+const getStop = async (stopName, routeId, direction) => {
+  const data = await apiFetch(`Stops/${routeId}/${direction}`);
+  const routeStop = data.filter(
+    (s) => s.Text.toLowerCase() === stopName.toLowerCase()
+  );
+  return routeStop[0].Value;
+};
 
 // Get departure details by specifying route ID + direction + stop
 // Return DepartureText from first object in array
 
-module.exports = { getRoutes, getDirection };
+module.exports = { getRoutes, getDirection, getStop };
