@@ -5,7 +5,7 @@ const response = require("./routes.mock");
 const getRoutes = require("../nextbus").getRoutes;
 
 describe("Testing route", () => {
-  nock("http://svc.metrotransit.org/NexTrip")
+  nock("https://svc.metrotransit.org/NexTrip")
     .get("/Routes")
     .reply(200, response);
 

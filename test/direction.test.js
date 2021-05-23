@@ -5,7 +5,7 @@ const response = require("./direction.mock");
 const getDirection = require("../nextbus").getDirection;
 
 describe("Testing direction", () => {
-  nock("http://svc.metrotransit.org/NexTrip")
+  nock("https://svc.metrotransit.org/NexTrip")
     .get("/Directions/901")
     .reply(200, response);
 

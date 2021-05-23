@@ -5,7 +5,7 @@ const response = require("./departure.mock");
 const getDeparture = require("../nextbus").getDeparture;
 
 describe("Testing departure", () => {
-  nock("http://svc.metrotransit.org/NexTrip")
+  nock("https://svc.metrotransit.org/NexTrip")
     .get("/901/0/28AV")
     .reply(200, response);
 

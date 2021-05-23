@@ -1,11 +1,11 @@
 const expect = require("chai").expect;
 const nock = require("nock");
 
-const response = require("./direction.mock");
+const response = require("./stops.mock");
 const getStop = require("../nextbus").getStop;
 
 describe("Testing stops", () => {
-  nock("http://svc.metrotransit.org/NexTrip")
+  nock("https://svc.metrotransit.org/NexTrip")
     .get("/Stops/901/0")
     .reply(200, response);
 
