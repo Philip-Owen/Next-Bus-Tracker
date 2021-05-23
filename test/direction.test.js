@@ -10,7 +10,7 @@ describe("Testing direction", () => {
     .reply(200, response);
 
   it("Fetches Blue line directions", () => {
-    return getDirection("north").then((response) => {
+    return getDirection("north", "901").then((response) => {
       expect(response).to.equal("0");
     });
   });
