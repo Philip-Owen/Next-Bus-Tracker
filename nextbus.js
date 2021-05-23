@@ -1,55 +1,14 @@
-const fetch = require("node-fetch");
+const { getRoutes, getDirection, getStop, getDeparture } = require("./helpers");
 
-// Destructure Route, Stop, Direction from process.argv
 const [userRoute, userStop, userDirection] = process.argv.slice(2);
 
-// API Call handler
-const apiFetch = async (endpoint) => {
-  const res = await fetch(`http://svc.metrotransit.org/NexTrip/${endpoint}`, {
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-  });
-  return await res.json();
+const getNextBus = async (route, stop, direction) => {
+  const routeId = await getRoutes(route);
+  const directionCode = await getDirection(direction, routeId);
+  const stopId = await getStop(stop, routeId, directionCode);
+  const departureTime = await getDeparture(routeId, directionCode, stopId);
+
+  console.log(departureTime);
 };
 
-// Get routes and filter object to find route specified in args
-// Return Route ID
-const getRoutes = async (route) => {
-  const data = await apiFetch("Routes");
-  const routeId = data.filter((r) => r.Description === route);
-  return routeId[0].Route;
-};
-// Get a routes directions by specifying the route ID and filter based on direction specified in args
-// Return direction value
-const getDirection = async (direction, routeId) => {
-  const data = await apiFetch(`Directions/${routeId}`);
-  const routeDirection = data.filter((d) =>
-    d.Text.toLowerCase().includes(direction.toLowerCase())
-  );
-  return routeDirection[0].Value;
-};
-
-// Get route stops by specifying route ID + direction and filter and filter based on stop specified in args
-// Return Stop value
-const getStop = async (stopName, routeId, direction) => {
-  const data = await apiFetch(`Stops/${routeId}/${direction}`);
-  const routeStop = data.filter(
-    (s) => s.Text.toLowerCase() === stopName.toLowerCase()
-  );
-  return routeStop[0].Value;
-};
-
-// Get departure details by specifying route ID + direction + stop
-// Return DepartureText from first object in array
-const getDeparture = async (routeId, direction, stopId) => {
-  const data = await apiFetch(`${routeId}/${direction}/${stopId}`);
-  if (data[0].Actual) {
-    return data[0].DepartureText;
-  } else {
-    return `Estimated departure ${data[0].DepartureText}`;
-  }
-};
-
-module.exports = { getRoutes, getDirection, getStop, getDeparture };
+getNextBus(userRoute, userStop, userDirection);
