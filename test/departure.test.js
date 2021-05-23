@@ -11,7 +11,7 @@ describe("Testing departure", () => {
 
   it("Fetches Blue line departure", () => {
     return getDeparture("901", "0", "28AV").then((response) => {
-      expect(response[0]).to.have.property("DepartureText");
+      expect(response).to.have.property("DepartureText");
     });
   });
 });
