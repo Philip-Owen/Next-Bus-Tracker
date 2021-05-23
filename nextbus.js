@@ -1,10 +1,11 @@
 const fetch = require("node-fetch");
 
 // Destructure Route, Stop, Direction from process.argv
+const [userRoute, userStop, userDirection] = process.argv.slice(2);
 
 // API Call handler
 const apiFetch = async (endpoint) => {
-  const res = await fetch(`https://svc.metrotransit.org/NexTrip/${endpoint}`, {
+  const res = await fetch(`http://svc.metrotransit.org/NexTrip/${endpoint}`, {
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
@@ -44,8 +45,11 @@ const getStop = async (stopName, routeId, direction) => {
 // Return DepartureText from first object in array
 const getDeparture = async (routeId, direction, stopId) => {
   const data = await apiFetch(`${routeId}/${direction}/${stopId}`);
-  console.log(data[0]);
-  return data[0];
+  if (data[0].Actual) {
+    return data[0].DepartureText;
+  } else {
+    return `Estimated departure ${data[0].DepartureText}`;
+  }
 };
 
 module.exports = { getRoutes, getDirection, getStop, getDeparture };
