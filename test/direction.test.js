@@ -2,7 +2,7 @@ const expect = require("chai").expect;
 const nock = require("nock");
 
 const response = require("./direction.mock");
-const getDirection = require("../nextbus").getDirection;
+const getDirection = require("../helpers").getDirection;
 
 describe("Testing direction", () => {
   nock("https://svc.metrotransit.org/NexTrip")

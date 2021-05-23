@@ -2,7 +2,7 @@ const expect = require("chai").expect;
 const nock = require("nock");
 
 const response = require("./stops.mock");
-const getStop = require("../nextbus").getStop;
+const getStop = require("../helpers").getStop;
 
 describe("Testing stops", () => {
   nock("https://svc.metrotransit.org/NexTrip")

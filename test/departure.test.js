@@ -3,7 +3,7 @@ const nock = require("nock");
 
 const actual = require("./departure-actual.mock");
 const estimated = require("./departure-estimated.mock");
-const getDeparture = require("../nextbus").getDeparture;
+const getDeparture = require("../helpers").getDeparture;
 
 describe("Testing departure actual", () => {
   nock("https://svc.metrotransit.org/NexTrip")
