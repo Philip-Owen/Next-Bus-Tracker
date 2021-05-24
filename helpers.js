@@ -8,7 +8,11 @@ const apiFetch = async (endpoint) => {
       Accept: "application/json",
     },
   });
-  return await res.json();
+  if (res.status === 200) {
+    return await res.json();
+  } else {
+    throw new Error(`There was an issue retrieving data from /${endpoint}`);
+  }
 };
 
 // Gets all routes from /Routes endpoint and filters array based on route input.
