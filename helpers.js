@@ -11,8 +11,9 @@ const apiFetch = async (endpoint) => {
   return await res.json();
 };
 
-// Get routes and filter object to find route specified in args
-// Return Route ID
+// Gets all routes from /Routes endpoint and filters array based on route input.
+// Returns the route ID as a string.
+// Throws an error if the array is empty.
 const getRoutes = async (route) => {
   const data = await apiFetch("Routes");
   const routeId = data.filter((r) => r.Description === route);
@@ -23,8 +24,11 @@ const getRoutes = async (route) => {
     throw new Error(`No route with name '${route}' found.`);
   }
 };
-// Get a routes directions by specifying the route ID and filter based on direction specified in args
-// Return direction value
+
+// Uses routeId from getRoutes() function to retrieve the routes directions from the
+// /Directions/(routeId) endpoint and filters array based on the direction input.
+// Returns the direction code as a string.
+// Throws an error if the array is empty.
 const getDirection = async (direction, routeId) => {
   const data = await apiFetch(`Directions/${routeId}`);
   const routeDirection = data.filter((d) =>
@@ -38,8 +42,10 @@ const getDirection = async (direction, routeId) => {
   }
 };
 
-// Get route stops by specifying route ID + direction and filter and filter based on stop specified in args
-// Return Stop value
+// Uses the routeId and direction to retrieve a list of stops for a given route using the
+// /Stops/(routeId)/(direction) endpoint and filters array based on stopName input.
+// Returns the stop ID as a string.
+// Throws an error if the array is empty.
 const getStop = async (stopName, routeId, direction) => {
   const data = await apiFetch(`Stops/${routeId}/${direction}`);
   const routeStop = data.filter(
@@ -53,8 +59,14 @@ const getStop = async (stopName, routeId, direction) => {
   }
 };
 
-// Get departure details by specifying route ID + direction + stop
-// Return DepartureText from first object in array
+// Uses return values from getRoutes(), getDirection(), and getStop() to retrieve a list
+// of departure times for a specified route, direction, and stop.
+// Uses the first object in the array
+// If the 'Actual' property is set to true, the program logs the 'DepartureText' property
+// to the console.
+// If the 'Actual' property is set to false, the program logs that the next departure time
+// is an estimate and includes the estimated time of the next departure in the xx:xx format.
+// Throws an error if the array is empty.
 const getDeparture = async (routeId, direction, stopId) => {
   const data = await apiFetch(`${routeId}/${direction}/${stopId}`);
 

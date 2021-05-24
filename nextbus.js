@@ -1,7 +1,10 @@
+// Import helper functions
 const { getRoutes, getDirection, getStop, getDeparture } = require("./helpers");
 
+// Destructure user inputs from CLI
 const [userRoute, userStop, userDirection] = process.argv.slice(2);
 
+// Executes helper functions and logs the departure time to the console.
 const getNextBus = async (route, stop, direction) => {
   if (route && stop && direction) {
     try {
